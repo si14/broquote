@@ -393,7 +393,10 @@
       [:div.controls
        [(-> tabs (p/safe-get current-tab) :cmp) substate]]]
      [:div.preview
-      [preview-cmp]]]))
+      [preview-cmp]]
+     [:a.cred {:href "https://github.com/si14"}
+      "♥"]
+     ]))
 
 ;;
 ;; Interaction

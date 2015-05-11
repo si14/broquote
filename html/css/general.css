@@ -129,3 +129,13 @@ ul.tabs > li.active {
   position: absolute;
   top: -2px;
 }
+
+.cred {
+  display: block;
+  position: absolute;
+  font-weight: bold;
+  bottom: 3px;
+  right: 10px;
+  text-decoration: none;
+  color: #ababab;
+}
