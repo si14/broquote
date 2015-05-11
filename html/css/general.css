@@ -1,0 +1,131 @@
+html, body {
+  width: 100%;
+}
+
+body {
+  font-family: 'PT Sans', sans-serif;
+  margin: 0px;
+}
+
+.container {
+  margin: 0px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.controls-container {
+  box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
+  -moz-box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
+  -webkit-box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
+  background-color: #f0f0f0;
+}
+
+.preview {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.preview > canvas {
+  margin-top: 30px;
+}
+
+ul.tabs {
+  list-style-type: none;
+  margin: 0px;
+  padding: 0px;
+}
+
+ul.tabs > li {
+  float: left;
+  padding: 10px;
+  background-color: #d3d3d3;
+  color: #a8a8a8;
+  border-right: 1px solid #c3c3c3;
+  cursor: pointer;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+ul.tabs > li:last-child {
+  border: none;
+}
+
+ul.tabs > li.active {
+  background-color: #f0f0f0;
+  font-weight: bold;
+  opacity: 1;
+  color: #545454;
+}
+
+.controls {
+  margin: 10px;
+}
+
+.clear {
+  clear: both;
+}
+
+.form textarea, .form input {
+  width: 100%;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+  border: 2px solid #c3c3c3;
+  font-size: 14px;
+  border-radius: 0px;
+}
+
+.form textarea {
+  height: 90px;
+  resize: vertical;
+  line-height: 130%;
+}
+
+.form textarea:focus, .form input:focus {
+  border: 2px solid #2c7f8c;
+  box-shadow: 0;
+  outline: none;
+}
+
+.form input[type=range] {
+  border-width: 0px;
+  margin: 0px;
+}
+
+.form label {
+  color: #2c7f8c;
+  font-size: 12px;
+  display: block;
+}
+
+.form fieldset {
+  border-width: 0px;
+  border-left: 2px solid #ababab;
+  margin-top: 20px;
+  padding-top: 10px;
+  padding-left: 4px;
+  padding-bottom: 0px;
+  display: block;
+  position: relative;
+}
+
+.form fieldset:first-child {
+  margin-top: 0px;
+}
+
+.form fieldset > p:last-child {
+  margin-bottom: 0px;
+}
+
+.form legend {
+  color: #2c7f8c;
+  font-size: 15px;
+  font-weight: bold;
+  display: block;
+  position: absolute;
+  top: -2px;
+}
