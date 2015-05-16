@@ -39,7 +39,7 @@
 (def captions {:left {:font-size 25
                       :font-weight :bold
                       :text "КОМАНДА НАВАЛЬНОГО"
-                      :margin-bottom 20}
+                      :margin-bottom 22}
                :right {:font-size 40
                        :font-weight :normal
                        :text "navalny.com"
@@ -298,7 +298,7 @@
           bottom-y (- (:height sizes) margin-bottom)
           left-x margin-bottom]
       (set! (.-fillStyle ctx) (:signature colors))
-      (set! (.-textBaseline ctx) "bottom")
+      (set! (.-textBaseline ctx) "alphabetic")
       (set! (.-textAlign ctx) "left")
       (set! (.-font ctx) ((p/safe-get fonts font-weight) font-size))
       (.fillText ctx text left-x bottom-y))
