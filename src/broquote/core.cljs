@@ -94,8 +94,7 @@
     [:div
      [:p (-> quote :quote :text)]
      [:input {:type "text"
-              :value (-> quote :quote :text)
-              :on-change #(dispatch [:new-quote-text (-> % .-target .-value)])}]]))
+              :value (-> quote :quote :text)}]]))
 
 (defn number-tab-cmp [{:keys [number number-caption caption]}]
   [:div.form
@@ -397,24 +396,6 @@
      [:a.cred {:href "https://github.com/si14"}
       "♥"]
      ]))
-
-;;
-;; Interaction
-;;
-
-(defmulti interaction first)
-
-(defmethod interaction :new-quote-text
-  [[_ val]]
-  (swap! state assoc-in [:quote :quote :text] val))
-
-(defmethod interaction :default
-  [evt]
-  (.warn js/console "unhandled event: " (pr-str evt)))
-
-(go
-  (while true
-    (interaction (<! interaction-chan))))
 
 ;;
 ;; Wiring it all up
