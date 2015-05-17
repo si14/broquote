@@ -22,7 +22,7 @@
            :photo :default}
    :number {:number {:font-size 205
                      :text "42"
-                     :margin-top 85
+                     :margin-top 67
                      :x-offset -7}
             :number-caption {:font-size 50
                              :text "тыс.руб."
@@ -31,17 +31,17 @@
                       :font-size 70
                       :text "Средняя цена снусмумрика\nв Москве"
                       :line-height 1}}
-   :title {:font-size 64
+   :title {:font-size 60
            :text "Средняя цена фалафеля выросла\nна треть"
            :line-height 1
-           :margin-top 200}})
+           :margin-top 220}})
 
-(def captions {:left {:font-size 25
+(def captions {:left {:font-size 18
                       :font-weight :bold
                       :text "КОМАНДА НАВАЛЬНОГО"
                       :margin-bottom 22}
-               :right {:font-size 40
-                       :font-weight :normal
+               :right {:font-size 30
+                       :font-weight :medium
                        :text "navalny.com"
                        :margin-bottom 20}})
 
@@ -53,8 +53,13 @@
 (def sizes {:width 1400
             :height 700})
 
-(def fonts {:normal (fn [size] (str size "px PT Sans"))
-            :bold (fn [size] (str "bold " size "px PT Sans"))})
+#_(def fonts {:normal (fn [size] (str size "px PT Sans"))
+              :bold (fn [size] (str "bold " size "px PT Sans"))})
+
+(def fonts {:normal (fn [size] (str "400 " size "px RedRing"))
+            :regular (fn [size] (str "400 " size "px RedRing"))
+            :medium (fn [size] (str "500 " size "px RedRing"))
+            :bold (fn [size] (str "700 " size "px RedRing"))})
 
 (def number-layout {:circle {:x (/ (:width sizes) 2)
                              :y 230
@@ -325,13 +330,13 @@
       (set! (.-fillStyle ctx) (:white colors))
       (set! (.-textAlign ctx) "center")
       (set! (.-textBaseline ctx) "top")
-      (set! (.-font ctx) ((:normal fonts) font-size))
+      (set! (.-font ctx) ((:medium fonts) font-size))
       (dorun (map #(.fillText ctx %1 middle-x %2) line-parts ys)))
 
-    (let [{:keys [font-size font-weight text margin-bottom]} (:left captions)
+    (let [{:keys [font-weight text margin-bottom]} (:left captions)
           bottom-y (- (:height sizes) margin-bottom)]
       (set! (.-textBaseline ctx) "bottom")
-      (set! (.-font ctx) ((p/safe-get fonts font-weight) font-size))
+      (set! (.-font ctx) ((p/safe-get fonts font-weight) 24))
       (.fillText ctx text middle-x bottom-y))))
 
 (def tabs
@@ -398,7 +403,7 @@
      ]))
 
 ;;
-;; Wiring it all up
+;; Run the thing
 ;;
 
 (defn -main []

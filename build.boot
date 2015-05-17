@@ -7,7 +7,8 @@
                     [boot-garden "1.2.5-2"]
                     [tonsky/boot-anybar "0.1.0"]
 
-                    [org.clojure/clojurescript "0.0-3211"]
+                    [org.clojure/clojure "1.7.0-beta2"]
+                    [org.clojure/clojurescript "0.0-3269"]
                     [garden "1.2.5"]
 
                     [org.clojure/core.async "0.1.346.0-17112a-alpha"]
@@ -30,10 +31,7 @@
    (reload :on-jsload 'broquote.core/-main)
    (anybar)
    (cljs :optimizations :none
-         :source-map true)
-
-
-   ))
+         :source-map true)))
 
 (deftask release []
   (comp
