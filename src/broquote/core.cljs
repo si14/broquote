@@ -1,9 +1,6 @@
 (ns broquote.core
-  (:require-macros
-   [cljs.core.async.macros :refer [go go-loop]])
   (:require
    [clojure.string :as str]
-   [cljs.core.async :as async :refer [put! chan alts!]]
    [plumbing.core :as p]
    [reagent.core :as reagent]))
 
@@ -78,28 +75,12 @@
     :number (:number defaults)
     :title (:title defaults)}))
 
-(defonce interaction-chan (chan))
-
-;;
-;; Utils
-;;
-
-;; see https://github.com/Day8/re-frame/wiki/Beware-Returning-False
-(defn dispatch
-  [evt]
-  (put! interaction-chan evt)
-  nil)
-
 ;;
 ;; Components
 ;;
 
-(defn quote-tab-cmp [_]
-  (let [quote (:quote @state)]
-    [:div
-     [:p (-> quote :quote :text)]
-     [:input {:type "text"
-              :value (-> quote :quote :text)}]]))
+(defn quote-tab-cmp [{:keys [quote author photo]}]
+  [:div "foo"])
 
 (defn number-tab-cmp [{:keys [number number-caption caption]}]
   [:div.form
@@ -210,44 +191,45 @@
 
 (defn title-tab-cmp [{:keys [text font-size line-height margin-top]}]
   [:div.form
-   [:p
-    [:label {:for "title-text"} "Текст заголовка"]
-    [:textarea {:id "title-text"
-                :on-change #(swap! state assoc-in [:title :text]
-                                   (-> % .-target .-value))
-                :value text}]]
-   [:p
-    [:label {:for "title-font-size"}
-     "Размер шрифта (" font-size "px)"]
-    [:input {:id "title-font-size"
-             :type "range"
-             :min 1
-             :max 250
-             :value font-size
-             :on-change #(swap! state assoc-in [:title :font-size]
-                                (-> % .-target .-value js/parseInt))}]]
-   [:p
-    [:label {:for "title-line-height"}
-     "Межстрочный интервал (x" line-height ")"]
-    [:input {:id "title-line-height"
-             :type "range"
-             :min 0.1
-             :max 2
-             :step 0.05
-             :value line-height
-             :on-change #(swap! state assoc-in [:title :line-height]
-                                (-> % .-target .-value js/parseFloat))}]]
-   [:p
-    [:label {:for "title-margin-top"}
-     "Отступ сверху (" margin-top "px)"]
-    [:input {:id "title-margin-top"
-             :type "range"
-             :min 1
-             :max (- (:height sizes)
-                     (* line-height font-size))
-             :value margin-top
-             :on-change #(swap! state assoc-in [:title :margin-top]
-                                (-> % .-target .-value js/parseInt))}]]])
+   [:fieldset
+    [:legend "Заголовок"]
+    [:p
+     [:textarea {:id "title-text"
+                 :on-change #(swap! state assoc-in [:title :text]
+                                    (-> % .-target .-value))
+                 :value text}]]
+    [:p
+     [:label {:for "title-font-size"}
+      "Размер шрифта (" font-size "px)"]
+     [:input {:id "title-font-size"
+              :type "range"
+              :min 1
+              :max 250
+              :value font-size
+              :on-change #(swap! state assoc-in [:title :font-size]
+                                 (-> % .-target .-value js/parseInt))}]]
+    [:p
+     [:label {:for "title-line-height"}
+      "Межстрочный интервал (x" line-height ")"]
+     [:input {:id "title-line-height"
+              :type "range"
+              :min 0.1
+              :max 2
+              :step 0.05
+              :value line-height
+              :on-change #(swap! state assoc-in [:title :line-height]
+                                 (-> % .-target .-value js/parseFloat))}]]
+    [:p
+     [:label {:for "title-margin-top"}
+      "Отступ сверху (" margin-top "px)"]
+     [:input {:id "title-margin-top"
+              :type "range"
+              :min 1
+              :max (- (:height sizes)
+                      (* line-height font-size))
+              :value margin-top
+              :on-change #(swap! state assoc-in [:title :margin-top]
+                                 (-> % .-target .-value js/parseInt))}]]]])
 
 (defn quote-canvas [ctx substate]
   (.fillText ctx "quote" 10 10))
@@ -340,26 +322,31 @@
       (.fillText ctx text middle-x bottom-y))))
 
 (def tabs
-  {:quote {:cmp quote-tab-cmp
-           :canvas quote-canvas
-           :name "Цитата дня"}
+  {:title {:cmp title-tab-cmp
+           :canvas title-canvas
+           :name "Заголовок"}
    :number {:cmp number-tab-cmp
             :canvas number-canvas
             :name "Число дня"}
-   :title {:cmp title-tab-cmp
-           :canvas title-canvas
-           :name "Заголовок"}})
+   :quote {:cmp quote-tab-cmp
+           :canvas quote-canvas
+           :name "Цитата дня"}})
 
 (defn tab-selector-cmp []
   (let [current-tab (:current-tab @state)]
     [:ul.tabs
      (for [[k v] tabs]
-       ^{:key k}
-       [:li {:on-click #(swap! state assoc :current-tab k)
-             :class (if (= current-tab k)
-                      "active"
-                      "")}
-        (:name v)])]))
+       (if-not (= k :quote)
+         ^{:key k}
+         [:li {:on-click #(swap! state assoc :current-tab k)
+               :class (if (= current-tab k)
+                        "active"
+                        "")}
+          (:name v)]
+         ^{:key k}
+         [:li.disabled
+          (:name v)]
+         ))]))
 
 (defn canvas-cmp [tab substate]
   (let [render-canvas
@@ -371,7 +358,9 @@
             ((p/safe-get-in tabs [tab :canvas]) ctx substate)))]
     (reagent/create-class
      {:reagent-render
-      (fn [_ _] [:canvas {:style {:width (str (-> sizes :width (/ 2)) "px")
+      (fn [_ _] [:canvas
+                 {:id "the-canvas"
+                  :style {:width (str (-> sizes :width (/ 2)) "px")
                                   :height (str (-> sizes :height (/ 2)) "px")}}])
       :component-did-mount
       (fn [this]
@@ -395,7 +384,16 @@
       [tab-selector-cmp]
       [:div.clear]
       [:div.controls
-       [(-> tabs (p/safe-get current-tab) :cmp) substate]]]
+       [(-> tabs (p/safe-get current-tab) :cmp) substate]]
+      [:a.download
+       {:on-click (fn [evt]
+                    (let [a (.-target evt)
+                          canvas (.getElementById js/document "the-canvas")
+                          link (.toDataURL canvas)
+                          filename (str (name current-tab) ".png")]
+                      (set! (.-href a) link)
+                      (set! (.-download a) filename)))}
+       "Скачать картинку"]]
      [:div.preview
       [preview-cmp]]
      [:a.cred {:href "https://github.com/si14"}

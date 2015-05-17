@@ -45,6 +45,7 @@ body {
   display: flex;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .controls-container {
@@ -167,6 +168,20 @@ ul.tabs > li.active {
   top: -2px;
 }
 
+a.download {
+  color: #2c7f8c;
+  display: block;
+  float: right;
+  padding-right: 10px;
+  padding-bottom: 4px;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+a.download:hover {
+  text-decoration: underline;
+}
+
 .cred {
   display: block;
   position: absolute;
@@ -175,4 +190,9 @@ ul.tabs > li.active {
   right: 7px;
   text-decoration: none;
   color: #ababab;
+}
+
+.tabs > .disabled {
+  cursor: default;
+  color: #d3d3d3;
 }
