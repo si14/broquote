@@ -10,6 +10,7 @@
                     [org.clojure/clojure "1.7.0-beta2"]
                     [org.clojure/clojurescript "0.0-3269"]
                     [garden "1.2.5"]
+                    [danielsz/boot-autoprefixer "0.0.2"]
 
                     [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                     [reagent "0.5.0"]
@@ -21,6 +22,7 @@
  '[adzerk.boot-reload :refer [reload]]
  '[pandeiro.boot-http :refer [serve]]
  '[boot-garden.core   :refer [garden]]
+ '[danielsz.autoprefixer :refer [autoprefixer]]
  '[tonsky.boot-anybar :refer [anybar]])
 
 (deftask dev []
@@ -30,12 +32,14 @@
    (watch)
    (reload :on-jsload 'broquote.core/-main)
    (anybar)
+   (autoprefixer :files ["general.css"])
    (cljs :optimizations :none
          :source-map true)))
 
 (deftask release []
   (comp
    (cljs :optimizations :advanced)
+   (autoprefixer :files ["general.css"])
    (sift :include #{#"(^index\.html|^main\.js)"
                     #"(^css/.*)"
                     #"(^fonts/.*\.woff)"})))
