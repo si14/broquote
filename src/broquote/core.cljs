@@ -397,9 +397,7 @@
                       (set! (.-href a) link)
                       (set! (.-download a) filename)))
         :target "_blank"}
-       "Скачать картинку"]
-
-      ]
+       "Сохранить картинку"]]
      [:a.cred {:href "https://github.com/si14"}
       "♥"]
      ]))
