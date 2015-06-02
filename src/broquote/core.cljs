@@ -379,12 +379,15 @@
 (defn root-cmp []
   (let [current-tab (:current-tab @state)
         substate (p/safe-get @state current-tab)]
-    [:div.container
+    [:div.left-pane
      [:div.controls-container
       [tab-selector-cmp]
       [:div.clear]
       [:div.controls
-       [(-> tabs (p/safe-get current-tab) :cmp) substate]]
+       [(-> tabs (p/safe-get current-tab) :cmp) substate]]]
+     [:div.right-pane
+      [:div.preview
+       [preview-cmp]]
       [:a.download
        {:on-click (fn [evt]
                     (let [a (.-target evt)
@@ -394,9 +397,9 @@
                       (set! (.-href a) link)
                       (set! (.-download a) filename)))
         :target "_blank"}
-       "Скачать картинку"]]
-     [:div.preview
-      [preview-cmp]]
+       "Скачать картинку"]
+
+      ]
      [:a.cred {:href "https://github.com/si14"}
       "♥"]
      ]))

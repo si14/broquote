@@ -39,34 +39,45 @@ body {
   position: relative;
 }
 
-.container {
+.left-pane {
   margin: 0px;
-  display: -webkit-flex;
   display: flex;
-  -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   align-items: flex-start;
 }
 
 .controls-container {
   box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
-  -moz-box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
-  -webkit-box-shadow: 0px 0px 10px 2px rgba(119, 119, 119, 0.75);
   background-color: #f0f0f0;
 }
 
-.preview {
-  -webkit-flex-grow: 1;
-  flex-grow: 1;
-  display: -webkit-flex;
+.right-pane {
   display: flex;
-  -webkit-justify-content: center;
-  justify-content: center;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
 }
 
-.preview > canvas {
+.right-pane .preview {
   margin-top: 30px;
 }
+
+.right-pane a.download {
+  display: block;
+  background-color: #2c7f8c;
+  color: #f9fcfd;
+  padding: 5px 10px;
+  margin-top: 30px;
+  border: 2px solid #227582;
+  cursor: pointer;
+  user-select: none;
+}
+
+.right-pane a.download:hover {
+  background-color: #227582;
+  text-decoration: none;
+}
+
 
 ul.tabs {
   list-style-type: none;
@@ -81,9 +92,6 @@ ul.tabs > li {
   color: #a8a8a8;
   border-right: 1px solid #c3c3c3;
   cursor: pointer;
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
   user-select: none;
 }
 
@@ -108,9 +116,6 @@ ul.tabs > li.active {
 
 .form textarea, .form input {
   width: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  -ms-box-sizing: border-box;
   box-sizing: border-box;
   border: 2px solid #c3c3c3;
   font-size: 14px;
