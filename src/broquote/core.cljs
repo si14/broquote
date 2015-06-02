@@ -392,7 +392,8 @@
                           link (.toDataURL canvas)
                           filename (str (name current-tab) ".png")]
                       (set! (.-href a) link)
-                      (set! (.-download a) filename)))}
+                      (set! (.-download a) filename)))
+        :target "_blank"}
        "Скачать картинку"]]
      [:div.preview
       [preview-cmp]]
