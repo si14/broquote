@@ -3,7 +3,7 @@
  :resource-paths  #{"html" "conf" "private"}
  :dependencies    '[[adzerk/boot-cljs "0.0-3269-0"]
                     [adzerk/boot-reload "0.2.6"]
-                    [pandeiro/boot-http "0.6.2"]
+                    [pandeiro/boot-http "0.6.3-SNAPSHOT"]
                     [boot-garden "1.2.5-2"]
                     [tonsky/boot-anybar "0.1.0"]
 
